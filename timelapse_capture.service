@@ -8,7 +8,7 @@ Type=simple
 ExecStart=/home/jamie/timelapse/main.py
 Restart=on-failure
 RestartSec=10
-KillMode=process
+KillMode=control-group
 
 [Install]
 WantedBy=multi-user.target

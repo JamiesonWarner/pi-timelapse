@@ -9,7 +9,6 @@ Running main.py will:
 
 import os
 import subprocess
-import atexit
 from datetime import datetime, timedelta
 
 # Configure drive directory in /etc/fstab
@@ -41,9 +40,4 @@ t = 0
 
 print("Beginning timelapse...")
 process = subprocess.Popen(["raspistill", "-t", str(t), "-tl", str(tl), "-o", output_str])
-
-def kill_timelapse():
-    process.kill()
-atexit.register(kill_timelapse)
-
 process.wait()
