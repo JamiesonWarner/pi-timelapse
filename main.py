@@ -8,7 +8,9 @@ Running main.py will:
 """
 
 import os
-from datetime import datetime
+import subprocess
+import atexit
+from datetime import datetime, timedelta
 
 # Configure drive directory in /etc/fstab
 drive_dir = "/media/usbdrive"
@@ -28,9 +30,6 @@ except OSError as e:
 # Begin capturing data
 output_str = os.path.join(data_dir, "image%06d.jpg")
 
-from datetime import timedelta
-import subprocess
-
 # raspistill tl parameter configures the interval between shots in the timelapse
 tl = int(timedelta(minutes=5)/timedelta(milliseconds=1))
 
@@ -42,5 +41,9 @@ t = 0
 
 print("Beginning timelapse...")
 process = subprocess.Popen(["raspistill", "-t", str(t), "-tl", str(tl), "-o", output_str])
-process.wait()
 
+def kill_timelapse():
+    process.kill()
+atexit.register(kill_timelapse)
+
+process.wait()
